@@ -18,55 +18,6 @@ Using logistic Regression for model creation and training data set.
 Visualizing the result using a ROC curve and confusion matrix heatmap.
 Finally, the detailed breakdown of the confusion matrix and classification report was printed for an in-depth analysis of the model’s predictive capabilities.
 
-Code Example:
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-data = pd.read_csv("C:/Users/Pranay/Desktop/heart_disease_data.csv.csv")x = data.drop('TenYearCHD', axis=1)
-y = data['TenYearCHD']
-x = x.fillna(x.median())
-x = data.drop('TenYearCHD', axis=1)
-y = data['TenYearCHD']
-x = x.fillna(x.median())
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler()
-x_normalized = scaler.fit_transform(x)
-from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test = train_test_split(x_normalized, y, test_size=0.3, random_state=0)from sklearn.linear_model import LogisticRegression
-regressor = LogisticRegression(max_iter=1000)
-regressor.fit(x_train, y_train)
-#prediction
-y_pred = regressor.predict(x_test)
-y_pred_proba = regressor.predict_proba(x_test)[:, 1]
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report, roc_auc_score, roc_curve
-accuracy = accuracy_score(y_test, y_pred)
-conf_matrix = confusion_matrix(y_test, y_pred)
-class_report = classification_report(y_test, y_pred)
-roc_auc = roc_auc_score(y_test, y_pred_proba)
-print(accuracy)
-print(conf_matrix)
-# Plot ROC Curve
-fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
-plt.figure()
-plt.plot(fpr, tpr, color='blue', label=f'ROC curve (area = {roc_auc:.2f})')
-plt.plot([0, 1], [0, 1], color='gray', linestyle='--')
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
-plt.title('True positive rate vs false positive rate')
-plt.show()
-#confusion matrix
-tn, fp, fn, tp = conf_matrix.ravel()
-print("\nConfusion Matrix Breakdown:")
-print(f"True Negatives (TN): {tn}")
-print(f"False Positives (FP): {fp}")
-print(f"False Negatives (FN): {fn}")
-print(f"True Positives (TP): {tp}")
-plt.figure(figsize = (8, 5))
-sns.heatmap(conf_matrix, annot = True, fmt = 'd', cmap = "Blues")
-plt.show()
-print('The details for confusion matrix is =')
-print (classification_report(y_test, y_pred))
-
 7. Results and Evaluation
 The results from the heart disease prediction model indicate that logistic regression can effectively classify individuals at risk of heart disease based on clinical attributes. The performance metrics and visual evaluations highlight of the model's strengths.
 Based on the metrics and visualization, the model's performance can be summarized as:
